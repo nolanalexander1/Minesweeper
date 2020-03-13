@@ -40,16 +40,39 @@ public void draw ()
 }
 public boolean isWon()
 {
-    //your code here
-    return false;
+    for(int r = 0; r < NUM_ROWS; r++){
+        for(int c = 0; c < NUM_COLS; c++){
+            if(mines.contains(buttons[r][c]) && !buttons[r][c].flagged == true){
+                return false;
+            }
+        }
+    }
+    return true;
 }
 public void displayLosingMessage()
 {
-    //your code here
+    noLoop();
+    fill(0);
+    buttons[24][9].setLabel("Y");
+    buttons[24][10].setLabel("O");
+    buttons[24][11].setLabel("U");
+    buttons[24][12].setLabel("");
+    buttons[24][13].setLabel("L");
+    buttons[24][14].setLabel("O");
+    buttons[24][15].setLabel("S");
+    buttons[24][16].setLabel("E");
 }
 public void displayWinningMessage()
 {
-    //your code here
+    noLoop();
+    fill(0);
+    buttons[24][9].setLabel("Y");
+    buttons[24][10].setLabel("O");
+    buttons[24][11].setLabel("U");
+    buttons[24][12].setLabel("");
+    buttons[24][13].setLabel("W");
+    buttons[24][14].setLabel("I");
+    buttons[24][15].setLabel("N");
 }
 public boolean isValid(int r, int c)
 {
@@ -112,27 +135,26 @@ public class MSButton
     {
         clicked = true;
         if(mouseButton == RIGHT){
-            if(flagged == true){
-                flagged = false;
-            }else if(flagged == false){
-                flagged = true;
-                clicked = false;
-            }
-        }else if(mines.contains(this)){
-            displayLosingMessage();
-        }else if(countMines(myRow, myCol) > 0){
-            myLabel = "" + countMines(myRow, myCol);
-        }else{
-            for (int i = -1; i <= 1; i++) {
-                for (int j = -1; j <= 1; j++) {
-                    if (!(i == 0 && j == 0)) {
-                        if (isValid(myRow+i, myCol+j) && !buttons[myRow+i][myCol+j].clicked) {
+            flagged = !flagged;
+            clicked = !clicked;
+        }
+        if(mouseButton == LEFT){
+
+            if(mines.contains(this)){
+                    displayLosingMessage();
+                }else if(countMines(myRow, myCol) > 0){
+                    myLabel = "" + countMines(myRow, myCol);
+            }else{
+                    for (int i = -1; i <= 1; i++) {
+                        for (int j = -1; j <= 1; j++) {
+                            if (!(i == 0 && j == 0)) {
+                            if (isValid(myRow+i, myCol+j) && !buttons[myRow+i][myCol+j].clicked) {
                             buttons[myRow+i][myCol+j].mousePressed();
+                                }
+                            }
                         }
-                    }
-                }
-            }   
-            
+                    }   
+            }
         }
 
     }
